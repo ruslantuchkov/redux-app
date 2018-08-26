@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Formik } from 'formik';
 
-class SignInForm extends Component {
+class SignUpForm extends Component {
   render() {
     return (
       <div>
-        <h2>Sign In</h2>
+        <h2>Sign Up</h2>
         <Formik
           initialValues={{
             email: '',
@@ -81,4 +81,4 @@ class SignInForm extends Component {
   }
 }
 
-export default SignInForm;
+export default SignUpForm;
