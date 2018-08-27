@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import AdminPage from './routes/AdminPage';
 import AuthPage from './routes/AuthPage';
+import PeoplePage from './routes/PeoplePage';
 import ProtectedRoute from './common/ProtectedRoute';
 
 class Root extends Component {
@@ -10,6 +11,7 @@ class Root extends Component {
       <div>
         <ProtectedRoute path="/admin" component={AdminPage} />
         <Route path="/auth" component={AuthPage} />
+        <ProtectedRoute path="/people" component={PeoplePage} />
       </div>
     );
   }

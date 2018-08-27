@@ -4,7 +4,7 @@ import { Record } from 'immutable';
 
 export const moduleName = 'auth';
 
-const ReducerRecod = Record({
+const ReducerState = Record({
   user: null,
   error: null,
   loading: false
@@ -14,7 +14,7 @@ export const SIGN_UP_REQUEST = `${appName}/${moduleName}/SIGN_UP_REQUEST`;
 export const SIGN_UP_SUCCESS = `${appName}/${moduleName}/SIGN_UP_SUCCESS`;
 export const SIGN_UP_ERROR = `${appName}/${moduleName}/SIGN_UP_ERROR`;
 
-export default function reducer(state = new ReducerRecod(), action) {
+export default function reducer(state = new ReducerState(), action) {
   const { type, payload, error } = action;
 
   switch (type) {
