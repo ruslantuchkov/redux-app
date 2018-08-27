@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Route, NavLink } from 'react-router-dom';
 import SignInForm from '../auth/SignInForm';
 import SignUpForm from '../auth/SignUpForm';
+import Loader from '../common/Loader';
 import { connect } from 'react-redux';
 import { signUp } from '../../ducks/auth';
 
@@ -10,6 +11,8 @@ class AuthPage extends Component {
   handleSignUp = ({ email, password }) => this.props.signUp(email, password);
 
   render() {
+    const { loading } = this.props;
+
     return (
       <div>
         <h1>Auth page</h1>
@@ -27,12 +30,15 @@ class AuthPage extends Component {
           path="/auth/signup"
           render={() => <SignUpForm onSubmit={this.handleSignUp} />}
         />
+        {loading && <Loader />}
       </div>
     );
   }
 }
 
 export default connect(
-  null,
+  state => ({
+    loading: state.auth.loading
+  }),
   { signUp }
 )(AuthPage);
