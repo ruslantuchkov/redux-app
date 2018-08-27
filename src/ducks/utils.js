@@ -1,3 +1,3 @@
-function generateId() {
+export function generateId() {
   return Date.now();
 }

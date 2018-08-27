@@ -25,7 +25,7 @@ export default function reducer(state = new ReducerState(), action) {
   switch (type) {
     case ADD_PERSON:
       return state.update('entities', entities =>
-        entities.push(new PersonRecord(payload.person))
+        entities.push(new PersonRecord(payload))
       );
 
     default:
