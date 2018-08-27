@@ -1,6 +1,7 @@
-import firebase from 'firebase';
 import { appName } from '../config';
 import { Record, List } from 'immutable';
+import { put, call, takeEvery } from 'redux-saga/effects';
+import { generateId } from './utils';
 
 export const moduleName = 'people';
 
@@ -15,6 +16,7 @@ const PersonRecord = Record({
   email: null
 });
 
+export const ADD_PERSON_REQUEST = `${appName}/${moduleName}/ADD_PERSON_REQUEST`;
 export const ADD_PERSON = `${appName}/${moduleName}/ADD_PERSON`;
 
 export default function reducer(state = new ReducerState(), action) {
@@ -31,9 +33,20 @@ export default function reducer(state = new ReducerState(), action) {
   }
 }
 
-export const addPerson = person => dispatch => {
-  dispatch({
+export const addPerson = person => ({
+  type: ADD_PERSON_REQUEST,
+  payload: person
+});
+
+export const addPersonSaga = function*(action) {
+  const id = yield call(generateId);
+
+  yield put({
     type: ADD_PERSON,
-    payload: { person: { id: Date.now(), ...person } }
+    payload: { id, ...action.payload }
   });
+};
+
+export const saga = function*() {
+  yield takeEvery(ADD_PERSON_REQUEST, addPersonSaga);
 };
