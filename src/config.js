@@ -1,6 +1,9 @@
-import firebase from 'firebase';
+import { initializeApp } from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/database';
 
 export const appName = 'learnjscourse';
+
 export const firebaseConfig = {
   apiKey: 'AIzaSyBlwaZYc_RwUPkQMOmDIcf-6t1zW5ranu0',
   authDomain: `${appName}.firebaseapp.com`,
@@ -10,4 +13,4 @@ export const firebaseConfig = {
   messagingSenderId: '1096158165845'
 };
 
-firebase.initializeApp(firebaseConfig);
+initializeApp(firebaseConfig);

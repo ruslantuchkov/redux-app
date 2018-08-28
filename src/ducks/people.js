@@ -16,9 +16,11 @@ const PersonRecord = Record({
   email: null
 });
 
+//ACTION_TYPES
 export const ADD_PERSON_REQUEST = `${appName}/${moduleName}/ADD_PERSON_REQUEST`;
 export const ADD_PERSON = `${appName}/${moduleName}/ADD_PERSON`;
 
+//REDUCER
 export default function reducer(state = new ReducerState(), action) {
   const { type, payload } = action;
 
@@ -33,11 +35,13 @@ export default function reducer(state = new ReducerState(), action) {
   }
 }
 
+//ACTION_CREATORS
 export const addPerson = person => ({
   type: ADD_PERSON_REQUEST,
   payload: person
 });
 
+//SAGAS
 export const addPersonSaga = function*(action) {
   const id = yield call(generateId);
 

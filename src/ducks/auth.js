@@ -12,6 +12,7 @@ const ReducerState = Record({
   loading: false
 });
 
+//ACTION_TYPES
 export const SIGN_UP_REQUEST = `${appName}/${moduleName}/SIGN_UP_REQUEST`;
 export const SIGN_UP_SUCCESS = `${appName}/${moduleName}/SIGN_UP_SUCCESS`;
 export const SIGN_UP_ERROR = `${appName}/${moduleName}/SIGN_UP_ERROR`;
@@ -19,6 +20,7 @@ export const SIGN_IN_SUCCESS = `${appName}/${moduleName}/SIGN_IN_SUCCESS`;
 export const SIGN_OUT_REQUEST = `${appName}/${moduleName}/SIGN_OUT_REQUEST`;
 export const SIGN_OUT_SUCCESS = `${appName}/${moduleName}/SIGN_OUT_SUCCESS`;
 
+//REDUCER
 export default function reducer(state = new ReducerState(), action) {
   const { type, payload, error } = action;
 

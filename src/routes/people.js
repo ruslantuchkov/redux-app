@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { addPerson } from '../../ducks/people';
-import NewPersonForm from '../people/NewPersonForm';
-import Loader from '../common/Loader';
+import { addPerson } from '../ducks/people';
+import NewPersonForm from '../components/people/NewPersonForm';
+import Loader from '../components/common/Loader';
 
 class PersonPage extends Component {
   render() {
