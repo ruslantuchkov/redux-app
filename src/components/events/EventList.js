@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchAll, selectEvent, eventListSelector } from '../../ducks/events';
+import { Table, Column } from 'react-virtualized';
+import 'react-virtualized/styles.css';
 
 function mapStateToProps(state) {
   return {
@@ -13,24 +15,31 @@ class EventList extends Component {
     this.props.fetchAll();
   }
 
-  handleRowClick = uid => () => {
-    this.props.selectEvent(uid);
+  handleRowClick = ({ rowData }) => this.props.selectEvent(rowData.uid);
+
+  rowGetter = ({ index }) => {
+    return this.props.events[index];
   };
 
   render() {
+    const { events } = this.props;
+
     return (
       <div>
-        <table>
-          <tbody>
-            {this.props.events.map(event => (
-              <tr key={event.uid} onClick={this.handleRowClick(event.uid)}>
-                <td>{event.title}</td>
-                <td>{event.when}</td>
-                <td>{event.where}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <Table
+          rowCount={events.length}
+          rowGetter={this.rowGetter}
+          width={700}
+          height={300}
+          rowHeight={40}
+          headerHeight={50}
+          overscanRowCount={1}
+          onRowClick={this.handleRowClick}
+        >
+          <Column dataKey="title" width={200} label="name" />
+          <Column dataKey="where" width={300} label="place" />
+          <Column dataKey="url" width={300} label="url" />
+        </Table>
       </div>
     );
   }
