@@ -22,24 +22,9 @@ class SignInForm extends Component {
             }
             return errors;
           }}
-          onSubmit={(
-            values,
-            { setSubmitting, setErrors /* setValues and other goodies */ }
-          ) => {
+          onSubmit={(values, { setSubmitting, setErrors }) => {
             this.props.onSubmit(values);
             setSubmitting(false);
-            // LoginToMyApp(values).then(
-            //   user => {
-            //     setSubmitting(false);
-            //     // do whatevs...
-            //     // props.updateUser(user)
-            //   },
-            //   errors => {
-            //     setSubmitting(false);
-            //     // Maybe transform your API's errors into the same shape as Formik's
-            //     setErrors(transformMyApiErrors(errors));
-            //   }
-            // );
           }}
           render={({
             values,

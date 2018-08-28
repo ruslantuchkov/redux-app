@@ -4,7 +4,7 @@ import { addPerson } from '../ducks/people';
 import NewPersonForm from '../components/people/NewPersonForm';
 import Loader from '../components/common/Loader';
 
-class PersonPage extends Component {
+class PeoplePage extends Component {
   render() {
     const { loading, addPerson } = this.props;
 
@@ -22,4 +22,4 @@ export default connect(
     loading: state.people.loading
   }),
   { addPerson }
-)(PersonPage);
+)(PeoplePage);

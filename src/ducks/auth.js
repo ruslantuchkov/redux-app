@@ -6,7 +6,7 @@ import { push } from 'connected-react-router';
 
 export const moduleName = 'auth';
 
-const ReducerState = Record({
+const ReducerRecord = Record({
   user: null,
   error: null,
   loading: false
@@ -21,7 +21,7 @@ export const SIGN_OUT_REQUEST = `${appName}/${moduleName}/SIGN_OUT_REQUEST`;
 export const SIGN_OUT_SUCCESS = `${appName}/${moduleName}/SIGN_OUT_SUCCESS`;
 
 //REDUCER
-export default function reducer(state = new ReducerState(), action) {
+export default function reducer(state = new ReducerRecord(), action) {
   const { type, payload, error } = action;
 
   switch (type) {
@@ -44,7 +44,7 @@ export default function reducer(state = new ReducerState(), action) {
         .set('error', null);
 
     case SIGN_OUT_SUCCESS:
-      return new ReducerState();
+      return new ReducerRecord();
 
     default:
       return state;

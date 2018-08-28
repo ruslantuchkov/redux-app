@@ -1,11 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Route, Link, NavLink, withRouter } from 'react-router-dom';
+import ProtectedRoute from './components/common/ProtectedRoute';
 import AdminPage from './routes/admin';
 import AuthPage from './routes/auth';
 import PeoplePage from './routes/people';
-import ProtectedRoute from './components/common/ProtectedRoute';
-
+import EventsPage from './routes/events';
 import { signOut } from './ducks/auth';
 
 class App extends Component {
@@ -13,12 +13,12 @@ class App extends Component {
     return (
       <Fragment>
         <div>
-          <NavLink to="/admin/events" activeStyle={{ color: 'red' }}>
+          <NavLink to="/events" activeStyle={{ color: 'red' }}>
             events
           </NavLink>
         </div>
         <div>
-          <NavLink to="/admin/people" activeStyle={{ color: 'red' }}>
+          <NavLink to="/people" activeStyle={{ color: 'red' }}>
             people
           </NavLink>
         </div>
@@ -32,7 +32,7 @@ class App extends Component {
     return signedIn ? (
       <button onClick={signOut}>Sign Out</button>
     ) : (
-      <Link to="/auth/signin">sign in</Link>
+      <Link to="/auth/signin">Sign In</Link>
     );
   }
 
@@ -44,6 +44,7 @@ class App extends Component {
         <Route path="/auth" component={AuthPage} />
         <ProtectedRoute path="/admin" component={AdminPage} />
         <ProtectedRoute path="/people" component={PeoplePage} />
+        <Route path="/events" component={EventsPage} />
       </div>
     );
   }

@@ -5,7 +5,7 @@ import { generateId } from './utils';
 
 export const moduleName = 'people';
 
-const ReducerState = Record({
+const ReducerRecord = Record({
   entities: new List([])
 });
 
@@ -21,7 +21,7 @@ export const ADD_PERSON_REQUEST = `${appName}/${moduleName}/ADD_PERSON_REQUEST`;
 export const ADD_PERSON = `${appName}/${moduleName}/ADD_PERSON`;
 
 //REDUCER
-export default function reducer(state = new ReducerState(), action) {
+export default function reducer(state = new ReducerRecord(), action) {
   const { type, payload } = action;
 
   switch (type) {

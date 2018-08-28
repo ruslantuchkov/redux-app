@@ -6,19 +6,16 @@ import UnAuthorized from './UnAuthorized';
 
 class ProtectedRoute extends Component {
   render() {
-    const { component: Comp, authorized, ...rest } = this.props;
-
-    return (
-      <Route
-        {...rest}
-        render={props => {
-          return authorized ? <Comp {...props} /> : <UnAuthorized />;
-        }}
-      />
-    );
+    const { isAuthorized, component, render, ...rest } = this.props;
+    return <Route {...rest} render={this.getComponent} />;
   }
+
+  getComponent = () => {
+    const { isAuthorized, ...rest } = this.props;
+    return isAuthorized ? <Route {...rest} /> : <UnAuthorized />;
+  };
 }
 
 export default withRouter(
-  connect(state => ({ authorized: !!state.auth.user }))(ProtectedRoute)
+  connect(state => ({ isAuthorized: !!state.auth.user }))(ProtectedRoute)
 );
