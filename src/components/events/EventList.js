@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchAll, eventListSelector } from '../../ducks/events';
+import { fetchAll, selectEvent, eventListSelector } from '../../ducks/events';
 
 function mapStateToProps(state) {
   return {
@@ -13,13 +13,17 @@ class EventList extends Component {
     this.props.fetchAll();
   }
 
+  handleRowClick = uid => () => {
+    this.props.selectEvent(uid);
+  };
+
   render() {
     return (
       <div>
         <table>
           <tbody>
             {this.props.events.map(event => (
-              <tr key={event.uid}>
+              <tr key={event.uid} onClick={this.handleRowClick(event.uid)}>
                 <td>{event.title}</td>
                 <td>{event.when}</td>
                 <td>{event.where}</td>
@@ -34,5 +38,5 @@ class EventList extends Component {
 
 export default connect(
   mapStateToProps,
-  { fetchAll }
+  { fetchAll, selectEvent }
 )(EventList);
