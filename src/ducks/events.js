@@ -1,6 +1,6 @@
 import { appName } from '../config';
 import firebase from 'firebase';
-import { all, take, call, put } from 'redux-saga/effects';
+import { all, take, call, put, select } from 'redux-saga/effects';
 import { Record, OrderedMap, OrderedSet } from 'immutable';
 import { createSelector } from 'reselect';
 import { fbToEntities } from './utils';
@@ -27,6 +27,9 @@ export const EventRecord = Record({
 //ACTION TYPES
 export const FETCH_ALL_REQUEST = `${appName}/${moduleName}/FETCH_ALL_REQUEST`;
 export const FETCH_ALL_SUCCESS = `${appName}/${moduleName}/FETCH_ALL_SUCCESS`;
+export const FETCH_LAZY_REQUEST = `${appName}/${moduleName}/FETCH_LAZY_REQUEST`;
+export const FETCH_LAZY_SUCCESS = `${appName}/${moduleName}/FETCH_LAZY_SUCCESS`;
+export const FETCH_LAZY_START = `${appName}/${moduleName}/FETCH_LAZY_START`;
 export const SELECT_EVENT = `${appName}/${moduleName}/SELECT_EVENT`;
 
 //REDUCER
@@ -35,6 +38,7 @@ export default function reducer(state = new ReducerRecord(), action) {
 
   switch (type) {
     case FETCH_ALL_REQUEST:
+    case FETCH_LAZY_START:
       return state.set('loading', true);
 
     case FETCH_ALL_SUCCESS:
@@ -42,6 +46,12 @@ export default function reducer(state = new ReducerRecord(), action) {
         .set('loading', true)
         .set('loaded', true)
         .set('entities', fbToEntities(payload, EventRecord));
+
+    case FETCH_LAZY_SUCCESS:
+      return state
+        .set('loading', false)
+        .mergeIn(['entities'], fbToEntities(payload, EventRecord))
+        .set('loaded', Object.keys(payload).length < 10);
 
     case SELECT_EVENT:
       return state.update(
@@ -81,6 +91,12 @@ export function selectEvent(uid) {
   };
 }
 
+export function fetchLazy() {
+  return {
+    type: FETCH_LAZY_REQUEST
+  };
+}
+
 //SAGAS
 export const fetchAllSaga = function*() {
   while (true) {
@@ -96,6 +112,36 @@ export const fetchAllSaga = function*() {
   }
 };
 
+export const fetchLazySaga = function*() {
+  while (true) {
+    yield take(FETCH_LAZY_REQUEST);
+
+    const state = yield select(stateSelector); //state уже после изменения от FETCH_LAZY_REQUEST, поэтому по FETCH_LAZY_REQUEST нельзя менять loading на true
+
+    if (state.loading || state.loaded) continue;
+
+    yield put({
+      type: FETCH_LAZY_START
+    });
+
+    const lastEvent = state.entities.last();
+
+    const ref = firebase
+      .database()
+      .ref('events')
+      .orderByKey()
+      .limitToFirst(10)
+      .startAt(lastEvent ? lastEvent.uid : '');
+
+    const data = yield call([ref, ref.once], 'value');
+
+    yield put({
+      type: FETCH_LAZY_SUCCESS,
+      payload: data.val()
+    });
+  }
+};
+
 export function* saga() {
-  yield all([fetchAllSaga()]);
+  yield all([fetchAllSaga(), fetchLazySaga()]);
 }
