@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import { Route, NavLink } from 'react-router-dom';
+import { Route, NavLink, Redirect } from 'react-router-dom';
 import SignInForm from '../components/auth/SignInForm';
 import SignUpForm from '../components/auth/SignUpForm';
 import Loader from '../components/common/Loader';
@@ -14,12 +14,18 @@ class AuthPage extends Component {
     return (
       <Fragment>
         <div>
-          <NavLink to="/auth/signin" activeStyle={{ color: 'red' }}>
+          <NavLink
+            to={`${this.props.match.path}/signin`}
+            activeStyle={{ color: 'red' }}
+          >
             sign in
           </NavLink>
         </div>
         <div>
-          <NavLink to="/auth/signup" activeStyle={{ color: 'red' }}>
+          <NavLink
+            to={`${this.props.match.path}/signup`}
+            activeStyle={{ color: 'red' }}
+          >
             sign up
           </NavLink>
         </div>
@@ -28,18 +34,20 @@ class AuthPage extends Component {
   }
 
   render() {
-    const { loading } = this.props;
+    const { loading, error, isAuthorized } = this.props;
 
     return (
       <div>
+        {isAuthorized ? <Redirect to="/" /> : null}
         <h1>Auth page</h1>
         {this.menu}
+        {error && <p style={{ color: 'red' }}>{error.message}</p>}
         <Route
-          path="/auth/signin"
+          path={`${this.props.match.path}/signin`}
           render={() => <SignInForm onSubmit={this.handleSignIn} />}
         />
         <Route
-          path="/auth/signup"
+          path={`${this.props.match.path}/signup`}
           render={() => <SignUpForm onSubmit={this.handleSignUp} />}
         />
         {loading && <Loader />}
@@ -50,7 +58,9 @@ class AuthPage extends Component {
 
 export default connect(
   state => ({
-    loading: state.auth.loading
+    loading: state.auth.loading,
+    error: state.auth.error,
+    isAuthorized: !!state.auth.user
   }),
   { signUp }
 )(AuthPage);

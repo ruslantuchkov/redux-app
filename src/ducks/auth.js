@@ -62,30 +62,25 @@ export const signOut = () => ({
 });
 
 //SAGAS
-export function* signUpSaga() {
+export function* signUpSaga({ payload }) {
   const auth = firebase.auth();
 
-  while (true) {
-    //вместо takeEvery для примера
-    const action = yield take(SIGN_UP_REQUEST);
+  try {
+    const user = yield call(
+      [auth, auth.createUserWithEmailAndPassword],
+      payload.email,
+      payload.password
+    );
 
-    try {
-      const user = yield call(
-        [auth, auth.createUserWithEmailAndPassword],
-        action.payload.email,
-        action.payload.password
-      );
-
-      yield put({
-        type: SIGN_UP_SUCCESS,
-        payload: { user }
-      });
-    } catch (error) {
-      yield put({
-        type: SIGN_UP_ERROR,
-        error
-      });
-    }
+    yield put({
+      type: SIGN_UP_SUCCESS,
+      payload: { user }
+    });
+  } catch (error) {
+    yield put({
+      type: SIGN_UP_ERROR,
+      error
+    });
   }
 }
 
@@ -116,7 +111,7 @@ export const signOutSaga = function*() {
 
 export const saga = function*() {
   yield all([
-    signUpSaga(),
+    takeEvery(SIGN_UP_REQUEST, signUpSaga),
     watchStatusChange(),
     takeEvery(SIGN_OUT_REQUEST, signOutSaga)
   ]);

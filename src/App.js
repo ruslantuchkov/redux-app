@@ -2,10 +2,9 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Route, Link, NavLink, withRouter } from 'react-router-dom';
 import ProtectedRoute from './components/common/ProtectedRoute';
-import AdminPage from './routes/admin';
-import AuthPage from './routes/auth';
-import PeoplePage from './routes/people';
-import EventsPage from './routes/events';
+import AuthPage from './routes/AuthPage';
+import PeoplePage from './routes/PeoplePage';
+import EventsPage from './routes/EventsPage';
 import { signOut } from './ducks/auth';
 
 class App extends Component {
@@ -42,7 +41,6 @@ class App extends Component {
         {this.authBtn}
         {this.menu}
         <Route path="/auth" component={AuthPage} />
-        <ProtectedRoute path="/admin" component={AdminPage} />
         <ProtectedRoute path="/people" component={PeoplePage} />
         <Route path="/events" component={EventsPage} />
       </div>

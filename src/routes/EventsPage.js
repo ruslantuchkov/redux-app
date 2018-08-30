@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import EventList from '../components/events/EventList';
+import EventsTable from '../components/events/EventsTable';
 
 class EventsPage extends Component {
   render() {
     return (
       <div>
         <h1>Events page</h1>
-        <EventList />
+        <EventsTable />
       </div>
     );
   }

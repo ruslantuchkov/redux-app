@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { fetchLazy, selectEvent, eventListSelector } from '../../ducks/events';
 import { Table, Column, InfiniteLoader } from 'react-virtualized';
 import 'react-virtualized/styles.css';
-import Loader from '../common/Loader';
 
 function mapStateToProps(state) {
   return {
@@ -13,7 +12,7 @@ function mapStateToProps(state) {
   };
 }
 
-class EventList extends Component {
+class EventsTable extends Component {
   componentDidMount() {
     this.props.fetchLazy();
   }
@@ -27,12 +26,12 @@ class EventList extends Component {
   };
 
   loadMoreRows = () => {
+    console.log('load more');
     this.props.fetchLazy();
   };
 
   render() {
     const { events, loading, loaded } = this.props;
-    if (loading) return <Loader />;
     return (
       <InfiniteLoader
         isRowLoaded={this.isRowLoaded}
@@ -65,4 +64,4 @@ class EventList extends Component {
 export default connect(
   mapStateToProps,
   { fetchLazy, selectEvent }
-)(EventList);
+)(EventsTable);
