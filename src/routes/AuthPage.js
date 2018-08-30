@@ -4,10 +4,10 @@ import SignInForm from '../components/auth/SignInForm';
 import SignUpForm from '../components/auth/SignUpForm';
 import Loader from '../components/common/Loader';
 import { connect } from 'react-redux';
-import { signUp } from '../ducks/auth';
+import { signUp, signIn } from '../ducks/auth';
 
 class AuthPage extends Component {
-  handleSignIn = values => console.log(values);
+  handleSignIn = ({ email, password }) => this.props.signIn(email, password);
   handleSignUp = ({ email, password }) => this.props.signUp(email, password);
 
   get menu() {
@@ -62,5 +62,5 @@ export default connect(
     error: state.auth.error,
     isAuthorized: !!state.auth.user
   }),
-  { signUp }
+  { signUp, signIn }
 )(AuthPage);
