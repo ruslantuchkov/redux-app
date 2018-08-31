@@ -14,8 +14,6 @@ const store = createStore(
   composeEnhancers(applyMiddleware(sagaMiddleware, routerMiddleware(history)))
 );
 
-window.store = store; // для доступа к store из консоли
-
 sagaMiddleware.run(saga);
 
 export default store;
