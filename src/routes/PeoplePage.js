@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { addPerson } from '../ducks/people';
 import NewPersonForm from '../components/people/NewPersonForm';
 import Loader from '../components/common/Loader';
+import PeopleList from '../components/people/PeopleList';
 
 class PeoplePage extends Component {
   render() {
@@ -11,6 +12,7 @@ class PeoplePage extends Component {
     return (
       <div>
         <h2>Add new person</h2>
+        <PeopleList />
         {loading ? <Loader /> : <NewPersonForm onSubmit={addPerson} />}
       </div>
     );
